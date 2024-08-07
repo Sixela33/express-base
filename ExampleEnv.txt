@@ -1,0 +1,11 @@
+#ServerConfig
+HOST=http://localhost
+PORT=8080
+SESSION_SECRET=asdf
+
+#postgress config
+DB_NAME=ramelax
+DB_USER=administrator
+DB_PASSWORD=qwer
+DB_HOST=localhost
+DB_DIALECT=sqlite
