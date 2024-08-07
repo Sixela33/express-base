@@ -3,7 +3,8 @@ export const BASE_URL = import.meta.env.VITE_NODE_ENV === 'production' ? import.
 
 
 export default axios.create({
-    baseURL: BASE_URL
+    baseURL: BASE_URL,
+    withCredentials: true
 });
 
 export const axiosPrivate = axios.create({

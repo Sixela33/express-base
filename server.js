@@ -29,9 +29,14 @@ class Server {
         this.app.use(requestLogger)
         this.app.use(session({
             secret: process.env.SESSION_SECRET,
-            cookie: {maxAge: 1 * 1000 * 60 * 60}, // 1 hora
-            saveUninitialized: false
-        }))
+            cookie: { 
+                maxAge: 1 * 1000 * 60 * 60, // 1 hour
+                secure: process.env.NODE_ENV === 'production', // use secure cookies in production
+                httpOnly: true
+            }, 
+            saveUninitialized: false,
+            resave: false
+        }));
 
         this.app.use(passport.initialize())
         this.app.use(passport.session())
