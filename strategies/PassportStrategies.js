@@ -20,11 +20,12 @@ passport.deserializeUser(async (id, done) => {
 export default passport.use(
     new Strategy({usernameField: "email"}, async (email, password, done) => {
         try {
-            console.log({email, password})
             let foundUser = await User.findOne({where: {email}})
-            foundUser = foundUser.dataValues
+            foundUser = foundUser?.dataValues
+            
             if(!foundUser) throw {message: "Invalid User", status: 401}
             if(!await bcrypt.compare(password, foundUser.password)) throw {message: "Invalid User", status: 401}
+
             done(null, foundUser)
         } catch (error) {
             done(error, null)
