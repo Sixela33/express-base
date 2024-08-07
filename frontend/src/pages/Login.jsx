@@ -1,25 +1,30 @@
 import React, { useState } from 'react';
 import { Container, TextField, Button, Typography, Box, Grid, Link } from '@mui/material';
 import axios from '../api/axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+    const navigateTo = useNavigate()
 
-    try {
-      await axios.post('/api/users/login', 
-        {
-          email,
-          password
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+        try {
+            const response = await axios.post('/api/users/login', 
+                {
+                email,
+                password
+                }
+            )
+            console.log(response)
+            navigateTo('/')
+        } catch (error) {
+            console.log(error)
         }
-      )
-    } catch (error) {
-      console.log(error)
-    }
-  };
+    };
 
   return (
     <Container maxWidth="sm">

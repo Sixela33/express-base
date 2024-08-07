@@ -5,12 +5,13 @@ import session from "express-session";
 
 import errorHandler from "./middleware/ErrorHandler.js";
 import './strategies/PassportStrategies.js'
+import corsOptions from "./config/corsOptions.js";
 
 import requestLogger from "./loggers/requestLogger.js";
 
-
 import UserRouter from "./src/user/UserRouter.js";
 import passport from "passport";
+import credentials from "./middleware/credentials.js";
 
 class Server {
 
@@ -23,7 +24,8 @@ class Server {
     async start() {
         this.app.use(express.json({ limit: '20mb' }));
         this.app.use(express.urlencoded({ limit: '20mb', extended: true }));
-        this.app.use(cors());
+        this.app.use(credentials)
+        this.app.use(cors(corsOptions));
         this.app.use(requestLogger)
         this.app.use(session({
             secret: process.env.SESSION_SECRET,
