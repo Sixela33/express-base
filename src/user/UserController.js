@@ -23,6 +23,17 @@ class UserController {
         }
     }
 
+    logout  = async (req,res, next) => {
+        try {
+            req.logout((err) => {
+               if(err) {return next(err)}
+            })
+            res.sendStatus(200)
+        } catch (error) {
+            next(error)
+        }
+    }
+
     status = async (req, res, next) => {
         try {
             res.send(req.user)

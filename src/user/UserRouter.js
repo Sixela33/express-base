@@ -12,6 +12,7 @@ class UserRouter {
 
         this.router.post('/login', passport.authenticate('local'), this.controller.login)
         this.router.post('/register', this.controller.register)
+        this.router.post('/logout', this.controller.logout)
 
         this.router.get('/status', authMiddleware(), this.controller.status)
 

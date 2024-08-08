@@ -6,10 +6,22 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
+import { axiosPrivate } from '../api/axios';
+import useAlert from '../hooks/useAlert';
 
 export default function NavBar() {
 
-    const navigateTo = useNavigate()
+  const navigateTo = useNavigate()
+  const {setMessage} = useAlert()
+
+  const logOutUser = async () => {
+    try {
+      await axiosPrivate.post('/api/users/logout')
+      setMessage("Log out success")
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -28,6 +40,7 @@ export default function NavBar() {
           </Typography>
           <Button onClick={() => navigateTo('/login')} color="inherit">Login</Button>
           <Button onClick={() => navigateTo('/register')} color="inherit">Register</Button>
+          <Button onClick={logOutUser} color="inherit">Log Out</Button>
         </Toolbar>
       </AppBar>
     </Box>
