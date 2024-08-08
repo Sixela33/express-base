@@ -5,6 +5,7 @@ import Register from "./pages/Register"
 import Protected from "./pages/Protected"
 import NavBar from "./components/NavBar"
 import CustomAlert from "./components/CustomAlert"
+import ProtectedRoutes from "./components/ProtectedRoutes"
 
 function App() {
   return (
@@ -15,7 +16,9 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
-        <Route path="/protected" element={<Protected/>}/>
+        <Route element={<ProtectedRoutes/>}>
+          <Route path="/protected" element={<Protected/>}/>
+        </Route>
       </Routes>
     </>
   )

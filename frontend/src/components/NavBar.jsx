@@ -19,7 +19,7 @@ export default function NavBar() {
   const logOutUser = async () => {
     try {
       await axiosPrivate.post('/api/users/logout')
-      setAuth({})
+      setAuth()
       setMessage("Log out success")
     } catch (error) {
       console.log(error)
@@ -40,10 +40,15 @@ export default function NavBar() {
           </IconButton>
           <Typography onClick={() => navigateTo('/')} variant="h6" component="div" sx={{ flexGrow: 1, ":hover": {cursor: "pointer"} }}>
             Yes
-          </Typography>
-          <Button onClick={() => navigateTo('/login')} color="inherit">Login</Button>
-          <Button onClick={() => navigateTo('/register')} color="inherit">Register</Button>
-          <Button onClick={logOutUser} color="inherit">Log Out</Button>
+          </Typography>          
+          {auth ? <Button onClick={logOutUser} color="inherit">Log Out</Button>
+          : (
+            <>
+              <Button onClick={() => navigateTo('/login')} color="inherit">Login</Button>
+              <Button onClick={() => navigateTo('/register')} color="inherit">Register</Button>
+            </>
+          ) 
+        }
         </Toolbar>
       </AppBar>
     </Box>
