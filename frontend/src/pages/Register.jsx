@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, TextField, Button, Typography, Box, Grid, Link } from '@mui/material';
 import axios from '../api/axios';
+import useAlert from '../hooks/useAlert';
 
 export default function Register() {
     const [name, setName] = useState('');
@@ -8,6 +9,7 @@ export default function Register() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    const {setMessage} = useAlert()
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -20,7 +22,9 @@ export default function Register() {
                     password,
                 }
             );
+            setMessage("Registration succesfull")
         } catch (error) {
+            setMessage(error?.response?.data, "error")
             console.log(error);
         }
     };
