@@ -3,11 +3,13 @@ import { Container, TextField, Button, Typography, Box, Grid, Link } from '@mui/
 import axios from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import useAlert from '../hooks/useAlert';
+import useAuth from '../hooks/useAuth';
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const { auth, setAuth } = useAuth()
     const {setMessage} = useAlert()
     const navigateTo = useNavigate()
 
@@ -20,7 +22,7 @@ export default function Login() {
                 password
               }
             )
-            console.log(response)
+            setAuth(response.data)
             setMessage("Log in success")
             navigateTo('/')
         } catch (error) {

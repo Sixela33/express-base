@@ -8,15 +8,18 @@ import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
 import { axiosPrivate } from '../api/axios';
 import useAlert from '../hooks/useAlert';
+import useAuth from '../hooks/useAuth';
 
 export default function NavBar() {
 
+  const { auth, setAuth } = useAuth() 
   const navigateTo = useNavigate()
   const {setMessage} = useAlert()
 
   const logOutUser = async () => {
     try {
       await axiosPrivate.post('/api/users/logout')
+      setAuth({})
       setMessage("Log out success")
     } catch (error) {
       console.log(error)

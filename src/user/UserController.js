@@ -7,7 +7,8 @@ class UserController {
 
     login = async (req, res, next) => {
         try {
-            res.sendStatus(200)
+            const {password, id, createdAt, updatedAt, ...userData} = req.user
+            res.json(userData)
         } catch (error) {
             next(error)
         }
