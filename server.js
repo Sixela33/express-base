@@ -53,7 +53,7 @@ class Server {
 
         } catch (error) {
             console.error('No se pudo conectar a la base de datos:', error);
-            process.exit(1); // Salir del proceso si no se puede conectar a la base de datos
+            process.exit(1);
         }
         // -----------------------------------------------
         //                  ROUTES                        
@@ -62,7 +62,7 @@ class Server {
         this.app.use('/api/users', new UserRouter().start())
 
         // -----------------------------------------------
-        //                 MIDDLEWARES
+        //                  HANDLERS
         // -----------------------------------------------
     
         this.app.use(errorHandler)
