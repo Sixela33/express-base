@@ -1,0 +1,5 @@
+class FireBlocksService {
+    constructor() {
+        
+    }
+}
