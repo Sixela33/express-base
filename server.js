@@ -12,6 +12,7 @@ import requestLogger from "./loggers/requestLogger.js";
 import UserRouter from "./src/user/UserRouter.js";
 import passport from "passport";
 import credentials from "./middleware/credentials.js";
+import SequelizeStore from 'connect-session-sequelize'
 
 class Server {
 
@@ -27,23 +28,13 @@ class Server {
         this.app.use(credentials)
         this.app.use(cors(corsOptions));
         this.app.use(requestLogger)
-        this.app.use(session({
-            secret: process.env.SESSION_SECRET,
-            cookie: { 
-                maxAge: 1 * 1000 * 60 * 60, // 1 hour
-                secure: process.env.NODE_ENV === 'production', // use secure cookies in production
-                httpOnly: true
-            }, 
-            saveUninitialized: false,
-            resave: false
-        }));
-
-        this.app.use(passport.initialize())
-        this.app.use(passport.session())
 
         // -----------------------------------------------
         //                  SEQUELIZE                        
         // -----------------------------------------------
+
+        const SequelizeStoreInit = SequelizeStore(session.Store)
+
 
         try {
             await sequelize.authenticate();
@@ -55,6 +46,24 @@ class Server {
             console.error('No se pudo conectar a la base de datos:', error);
             process.exit(1);
         }
+
+
+        this.app.use(session({
+            secret: process.env.SESSION_SECRET,
+            cookie: { 
+                maxAge: 1 * 1000 * 60 * 60, // 1 hour
+                secure: process.env.NODE_ENV === 'production', // use secure cookies in production
+                httpOnly: true
+            }, 
+            saveUninitialized: false,
+            resave: false,
+            store: new SequelizeStoreInit({
+                db: sequelize
+            })
+        }));
+
+        this.app.use(passport.initialize())
+        this.app.use(passport.session())
         // -----------------------------------------------
         //                  ROUTES                        
         // -----------------------------------------------
